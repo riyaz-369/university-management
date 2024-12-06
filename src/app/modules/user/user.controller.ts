@@ -2,10 +2,13 @@ import { Request, Response } from "express";
 import { UserServices } from "./user.service";
 
 const createStudent = async (req: Request, res: Response) => {
-  const { password, student } = req.body;
+  const { password, student: studentData } = req.body;
 
   try {
-    const result = await UserServices.createStudentIntoDB(password, student);
+    const result = await UserServices.createStudentIntoDB(
+      password,
+      studentData
+    );
 
     res.status(200).json({
       success: true,
