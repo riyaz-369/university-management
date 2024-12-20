@@ -48,28 +48,33 @@ const localGuardianSchema = z.object({
 
 // Main Student Schema
 const studentValidationSchema = z.object({
-  id: z.string().min(1, { message: "Student ID is required" }),
-  password: z.string().min(6, { message: "Password is required" }),
-  name: userNameSchema,
-  gender: z.enum(["male", "female", "other"], {
-    message: "Gender is required",
+  body: z.object({
+    student: z.object({
+      password: z.string().min(6, { message: "Password is required" }),
+      name: userNameSchema,
+      gender: z.enum(["male", "female", "other"], {
+        message: "Gender is required",
+      }),
+      dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
+      email: z.string().email({ message: "Valid email is required" }),
+      contactNo: z.string().min(1, { message: "Contact number is required" }),
+      emergencyContactNo: z
+        .string()
+        .min(1, { message: "Emergency contact number is required" }),
+      bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
+      presentAddress: z
+        .string()
+        .min(1, { message: "Present address is required" }),
+      permanentAddress: z
+        .string()
+        .min(1, { message: "Permanent address is required" }),
+      guardian: guardianSchema,
+      localGuardian: localGuardianSchema,
+      profileImg: z.string().optional(),
+    }),
   }),
-  dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
-  email: z.string().email({ message: "Valid email is required" }),
-  contactNo: z.string().min(1, { message: "Contact number is required" }),
-  emergencyContactNo: z
-    .string()
-    .min(1, { message: "Emergency contact number is required" }),
-  bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
-  presentAddress: z.string().min(1, { message: "Present address is required" }),
-  permanentAddress: z
-    .string()
-    .min(1, { message: "Permanent address is required" }),
-  guardian: guardianSchema,
-  localGuardian: localGuardianSchema,
-  profileImg: z.string().optional(),
-  isActive: z.enum(["active", "inactive"]).default("active"),
-  isDeleted: z.boolean().optional(),
 });
 
-export { studentValidationSchema };
+export const studentValidations = {
+  studentValidationSchema,
+};
