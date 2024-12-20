@@ -1,5 +1,3 @@
-import bcrypt from "bcrypt";
-
 import { model, Schema } from "mongoose";
 import {
   StudentModel,
@@ -9,7 +7,6 @@ import {
   // StudentMethods,
   TUserName,
 } from "./student.interface";
-import config from "../../config";
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -78,7 +75,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     required: [true, "Student ID is required"],
     ref: "User",
   },
-  password: String,
   name: {
     type: userNameSchema,
     required: [true, "Name details are required"],
@@ -127,32 +123,8 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   },
 });
 
-// pre save middleware/hook
-studentSchema.pre("save", async function (next) {
-  // console.log(this, "pre hook: we will save data");
-  const hashedPassword = await bcrypt.hash(
-    this.password,
-    Number(config.bcrypt_salt)
-  );
-  this.password = hashedPassword;
-  next();
-});
-
-// post/pore save middleware/hook
-studentSchema.post("save", function (doc, next) {
-  // console.log(this, "post hook: we have saved the data");
-  doc.password = ""; // send res data empty password
-  next();
-});
-
-// Query middleware
-studentSchema.pre("find", async function (next) {
-  // console.log(this);
-  this.find({ isDeleted: { $ne: true } });
-  next();
-});
 studentSchema.pre("aggregate", async function (next) {
-  console.log(this.pipeline()); // [ { '$match': { id: '12346' } } ]
+  // console.log(this.pipeline()); // [ { '$match': { id: '12346' } } ]
 
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
@@ -163,11 +135,5 @@ studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
   return existingUser;
 };
-
-// custom instance method------------------>
-// studentSchema.methods.isUserExists = async function (id: string) {
-//   const existingUser = await Student.findOne({ id });
-//   return existingUser;
-// };
 
 export const Student = model<TStudent, StudentModel>("Student", studentSchema);
