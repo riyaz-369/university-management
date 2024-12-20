@@ -5,6 +5,7 @@ import { studentRoute } from "./app/modules/student/student.route";
 import { userRoute } from "./app/modules/user/user.route";
 import config from "./app/config";
 import globalErrorHandler from "./app/middlewares/global-err-handler";
+import { notFound } from "./app/middlewares/not-found";
 
 const app: Application = express();
 
@@ -22,5 +23,8 @@ app.get("/", (req: Request, res: Response) => {
 
 // @ts-ignore
 app.use(globalErrorHandler);
+
+// @ts-ignore
+app.use(notFound);
 
 export default app;
