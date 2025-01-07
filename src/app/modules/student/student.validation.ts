@@ -55,7 +55,7 @@ const studentValidationSchema = z.object({
       gender: z.enum(["male", "female", "other"], {
         message: "Gender is required",
       }),
-      dateOfBirth: z.string().min(1, { message: "Date of birth is required" }),
+      dateOfBirth: z.date().optional(),
       email: z.string().email({ message: "Valid email is required" }),
       contactNo: z.string().min(1, { message: "Contact number is required" }),
       emergencyContactNo: z
