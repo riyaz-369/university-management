@@ -4,7 +4,6 @@ import {
   TGuardian,
   TLocalGuardian,
   TStudent,
-  // StudentMethods,
   TUserName,
 } from "./student.interface";
 
@@ -112,6 +111,10 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     required: [true, "Local guardian details are required"],
   },
   profileImg: String,
+  admissionSemester: {
+    type: Schema.ObjectId,
+    ref: "AcademicSemester",
+  },
   isActive: {
     type: String,
     enum: ["active", "inactive"],

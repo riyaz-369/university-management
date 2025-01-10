@@ -26,8 +26,8 @@ const GetAllSemester = catchAsync(async (req, res) => {
 });
 
 const GetASemester = catchAsync(async (req, res) => {
-  const id = req.params.id;
-  const result = await AcademicSemesterServices.GetASemesterFromDB(id);
+  const semesterId = req.params.semesterId;
+  const result = await AcademicSemesterServices.GetASemesterFromDB(semesterId);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -37,9 +37,12 @@ const GetASemester = catchAsync(async (req, res) => {
 });
 
 const UpdateASemester = catchAsync(async (req, res) => {
-  const id = req.params.id;
+  const semesterId = req.params.semesterId;
   const data = await req.body;
-  const result = await AcademicSemesterServices.UpdateASemesterFromDB(id, data);
+  const result = await AcademicSemesterServices.UpdateASemesterFromDB(
+    semesterId,
+    data
+  );
   sendResponse(res, {
     statusCode: 200,
     success: true,

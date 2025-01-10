@@ -49,13 +49,13 @@ const localGuardianSchema = z.object({
 // Main Student Schema
 const studentValidationSchema = z.object({
   body: z.object({
+    password: z.string().min(6, { message: "Password is required" }),
     student: z.object({
-      password: z.string().min(6, { message: "Password is required" }),
       name: userNameSchema,
       gender: z.enum(["male", "female", "other"], {
         message: "Gender is required",
       }),
-      dateOfBirth: z.date().optional(),
+      dateOfBirth: z.string(),
       email: z.string().email({ message: "Valid email is required" }),
       contactNo: z.string().min(1, { message: "Contact number is required" }),
       emergencyContactNo: z
@@ -70,6 +70,7 @@ const studentValidationSchema = z.object({
         .min(1, { message: "Permanent address is required" }),
       guardian: guardianSchema,
       localGuardian: localGuardianSchema,
+      admissionSemester: z.string(),
       profileImg: z.string().optional(),
     }),
   }),

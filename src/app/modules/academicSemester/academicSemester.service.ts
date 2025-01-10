@@ -16,15 +16,15 @@ const GetAllSemesterFromDB = async () => {
   return result;
 };
 
-const GetASemesterFromDB = async (id: string) => {
+const GetASemesterFromDB = async (semesterId: string) => {
   const result = await AcademicSemester.findOne({
-    _id: id,
+    _id: semesterId,
   });
   return result;
 };
 
 const UpdateASemesterFromDB = async (
-  id: string,
+  semesterId: string,
   payload: TAcademicSemester
 ) => {
   if (academicSemesterNameCodeMapper[payload.name] !== payload.code) {
@@ -33,7 +33,7 @@ const UpdateASemesterFromDB = async (
 
   const result = await AcademicSemester.updateOne(
     {
-      _id: id,
+      _id: semesterId,
     },
     { ...payload }
   );
