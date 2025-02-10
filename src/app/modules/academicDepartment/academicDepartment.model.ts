@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { TAcademicDepartment } from "./academicDepartment.interface";
+import AppError from "../../errors/app-error";
 
 const AcademicDepartmentSchema = new Schema<TAcademicDepartment>(
   {
@@ -24,7 +25,7 @@ AcademicDepartmentSchema.pre("save", async function (next) {
   });
 
   if (isExist) {
-    throw new Error("Academic Department already exist");
+    throw new AppError(404, "Academic Department already exist");
   }
   next();
 });
@@ -35,7 +36,7 @@ AcademicDepartmentSchema.pre("findOneAndUpdate", async function (next) {
     query,
   });
   if (!isDepartmentExist) {
-    throw new Error("Academic Department does not exist");
+    throw new AppError(404, "Academic Department does not exist");
   }
   next();
 });

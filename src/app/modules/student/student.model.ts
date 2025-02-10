@@ -111,10 +111,8 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     required: [true, "Local guardian details are required"],
   },
   profileImg: String,
-  admissionSemester: {
-    type: Schema.ObjectId,
-    ref: "AcademicSemester",
-  },
+  admissionSemester: { type: Schema.ObjectId, ref: "AcademicSemester" },
+  academicDepartment: { type: Schema.ObjectId, ref: "AcademicDepartment" },
   isActive: {
     type: String,
     enum: ["active", "inactive"],
